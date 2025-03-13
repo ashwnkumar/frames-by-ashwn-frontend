@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { routes } from "../utils/routes";
+import { routes } from "../routes/routes";
 
 const Navbar = () => {
   const { pathname } = useLocation();
