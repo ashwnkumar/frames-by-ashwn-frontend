@@ -4,14 +4,16 @@ import Home from "../pages/user/Home";
 import Gallery from "../pages/user/Gallery";
 
 export const routes = {
+  public: [
+    {
+      path: "/admin/login",
+      component: AdminLogin,
+    },
+  ],
   admin: [
     {
       path: "/admin",
       component: AdminHome,
-    },
-    {
-      path: "/admin/login",
-      component: AdminLogin,
     },
   ],
   user: [
