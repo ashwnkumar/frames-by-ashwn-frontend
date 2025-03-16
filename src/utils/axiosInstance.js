@@ -3,7 +3,7 @@ import axios from "axios";
 // Base instance
 const axiosInstance = axios.create({
   baseURL: "http://localhost:4000/api",
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "multipart/form-data" },
 });
 
 // Request Interceptor: Attach Token

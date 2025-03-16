@@ -12,7 +12,7 @@ const CustomCheckbox = ({
 }) => {
   return (
     <div
-      className={`inline-flex gap-3 items-center bg-light ${className}`}
+      className={`inline-flex gap-3 items-center  ${className}`}
       onClick={onClick}
     >
       <label
@@ -28,12 +28,12 @@ const CustomCheckbox = ({
           checked={checked}
           onChange={onChange}
           className={`peer h-5 w-5 appearance-none border border-primary rounded-sm transition-all 
-            checked:border-dark bg-light checked:bg-primary-faded focus:outline-none ${
+            checked:border-brand bg-light checked:bg-primary-faded focus:outline-none ${
               checkboxProps.className || ""
             }`}
           {...checkboxProps}
         />
-        <span className="absolute text-dark opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <span className="absolute text-brand opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Check strokeWidth={1.5} size={12} absoluteStrokeWidth />
         </span>
       </label>

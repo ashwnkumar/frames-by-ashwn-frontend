@@ -3,18 +3,17 @@ import { Plus } from "lucide-react";
 import Header from "../../../components/Header";
 import { useDataContext } from "../../../contexts/DataContext";
 import ImageComponent from "../../../components/ImageComponent";
-import Lightbox from "../../../components/Lightbox";
 
 const AdminPhotos = () => {
   const [photos, setPhotos] = useState([]);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [viewingLightbox, setViewingLightbox] = useState(false);
 
   const { fetchedPhotos } = useDataContext();
 
   useEffect(() => {
-    if (fetchedPhotos.length !== photos.length) {
-      setPhotos(fetchedPhotos);
-    }
-  }, [fetchedPhotos, photos.length]);
+    setPhotos(fetchedPhotos); // Always update photos when fetchedPhotos changes
+  }, [fetchedPhotos]);
 
   const openModal = (index) => {
     setLightboxIndex(index);
@@ -29,12 +28,8 @@ const AdminPhotos = () => {
     },
   ];
 
-  console.log("fetchedPhotos", fetchedPhotos);
-
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
-      {/* Lightbox */}
-
       <Header title="Manage Photos" buttonData={buttons} />
 
       {/* Simple Grid Layout */}
@@ -45,7 +40,11 @@ const AdminPhotos = () => {
               key={photo._id}
               className="relative overflow-hidden rounded-xl"
             >
-              <ImageComponent src={photo.previewUrl} index={photo._id} />
+              <ImageComponent
+                images={photos.map((p) => p)} // Pass all images for navigation
+                imageId={index} // Image index in the array
+                openModal={openModal} // Function to open lightbox
+              />
             </div>
           ))
         ) : (

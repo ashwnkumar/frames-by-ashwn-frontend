@@ -42,7 +42,8 @@ const Input = ({
           onChange={onChange}
           onKeyDown={onKeyDown}
           disabled={disabled}
-          className={`w-full border rounded-md px-2 py-2 transition-colors duration-200 font-normal focus:outline-none focus:border-primary 
+          
+          className={`w-full border rounded-md px-2 py-2 transition-colors duration-200 font-normal focus:outline-none focus:border-brand  
             ${error ? "border-danger" : "border-gray"} 
             ${disabled ? "bg-disabled cursor-not-allowed" : ""} 
             ${

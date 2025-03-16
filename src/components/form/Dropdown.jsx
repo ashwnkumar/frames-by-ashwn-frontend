@@ -52,7 +52,7 @@ const Dropdown = ({
         name={name}
         className={`w-full border rounded-md px-2 py-2 transition-colors duration-200 font-normal flex justify-between items-center focus:outline-none focus:ring-0 
           ${disabled ? "bg-disabled cursor-not-allowed" : "cursor-pointer"} 
-          ${isOpen ? "border-primary" : "border-gray"}`}
+          ${isOpen ? "border-brand" : "border-gray"}`}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
       >
@@ -75,7 +75,7 @@ const Dropdown = ({
                 className={`px-3 py-2 cursor-pointer transition-colors duration-150 
                   ${
                     value === opt.value
-                      ? "bg-dark text-light"
+                      ? "bg-brand/25 text-brand font-medium"
                       : " hover:bg-hover "
                   }`}
                 onClick={() => handleSelect(opt)}

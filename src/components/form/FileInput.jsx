@@ -104,8 +104,8 @@ const FileUpload = ({
         <label
           htmlFor={id}
           className={`flex flex-col items-center justify-center w-full h-64 border-2 ${
-            isDragging ? "border-primary bg-gray-100" : "border-gray-300"
-          } border-dashed rounded-lg cursor-pointer hover:bg-gray-50 transition`}
+            isDragging ? "border-primary bg-brand" : "border-gray"
+          } border-dashed rounded-lg cursor-pointer hover:border-brand transition`}
           onDragOver={(event) => {
             event.preventDefault();
             setIsDragging(true);

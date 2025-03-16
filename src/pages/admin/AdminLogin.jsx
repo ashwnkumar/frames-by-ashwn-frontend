@@ -40,7 +40,11 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const { data } = await axiosInstance.post("/admin/login", form);
+      const { data } = await axiosInstance.post("/admin/login", form, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       localStorage.setItem("adminToken", data.token);
       toast.success("Login successful.");
       navigate("/admin");
