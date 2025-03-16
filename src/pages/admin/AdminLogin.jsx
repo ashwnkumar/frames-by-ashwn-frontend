@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import Input from "../../components/form/Input";
-import Button from "../../components/form/Button";
-import axiosInstance from "../../utils/axiosInstance";
+import DynamicForm from "../../components/form/DynamicForm";
 import toast from "react-hot-toast";
 import { useGlobalContext } from "../../contexts/GlobalContext";
 import envConfig from "../../utils/envConfig";
+import { useAuth } from "../../contexts/AuthContext";
+import Button from "../../components/form/Button";
 
 const AdminLogin = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const { loading, setLoading } = useGlobalContext();
+  const { loginAdmin } = useAuth();
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
@@ -40,14 +40,12 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const { data } = await axiosInstance.post("/admin/login", form, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      localStorage.setItem("adminToken", data.token);
-      toast.success("Login successful.");
-      navigate("/admin");
+      const response = await loginAdmin(form.email, form.password);
+
+      if (response.success) {
+        navigate("/admin");
+        toast.success("Logged In Successfully.");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Try again.");
     } finally {
@@ -59,60 +57,55 @@ const AdminLogin = () => {
     if (localStorage.getItem("adminToken")) navigate("/admin");
   }, []);
 
+  const formOptions = [
+    {
+      formType: "input",
+      type: "email",
+      label: "Email",
+      name: "email",
+      value: form.email,
+      onChange: (e) => setForm((prev) => ({ ...prev, email: e.target.value })),
+    },
+    {
+      formType: "input",
+      type: "password",
+      label: "Password",
+      name: "password",
+      value: form.password,
+      onChange: (e) =>
+        setForm((prev) => ({ ...prev, password: e.target.value })),
+    },
+  ];
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-light px-4">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center">
-          Welcome Back, {envConfig.adminName}!
-        </h2>
-        <p className="text-sm text-placeholder text-center mb-6">
+        <h2 className="text-2xl font-semibold text-center">Welcome Back</h2>
+        <p className="text-sm text-placeholder text-center ">
           Manage your portfolio with ease. Log in to upload and organize your
           photos.
         </p>
 
-        <form className="space-y-4">
-          <Input
-            label="Email Address"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="admin@portfolio.com"
-            value={form.email}
-            onChange={handleChange}
-            error={error.email}
-            required
-          />
+        <DynamicForm options={formOptions} />
 
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter your password"
-            value={form.password}
-            onChange={handleChange}
-            error={error.password}
-            required
-          />
-
+        <div className="flex flex-col items-center justify-center gap-2">
           <Button
             type="button"
             onClick={handleSubmit}
-            className="w-full mt-2"
             loading={loading}
+            className="w-full"
           >
-            Log In
+            Login
           </Button>
           <Button
             type="button"
-            onClick={() => navigate("/")}
-            className="w-full mt-2"
-            loading={loading}
             variant="secondary"
+            onClick={() => navigate("/")}
+            className="w-full"
           >
-            Back to Home
+            Go Back Home
           </Button>
-        </form>
+        </div>
       </div>
     </div>
   );

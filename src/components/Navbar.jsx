@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "../routes/routes";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="p-4 w-full flex flex-row items-center justify-around fixed top-0 z-50  text-dark backdrop-blur-md">
-      <Link to="/" className="text-4xl font-medium" style={{ fontFamily:"Smooch" }}>
+      <Link
+        to="/"
+        className="text-4xl font-medium"
+        style={{ fontFamily: "Smooch" }}
+      >
         frames by ashwn
       </Link>
-      <div className="flex flex-row items-center justify-center gap-10">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="bg-dark text-light rounded-full p-1.5 block md:hidden absolute left-10   "
+      >
+        {open ? <X /> : <Menu />}
+      </button>
+      <div className=" flex-row items-center justify-center gap-10 hidden md:flex">
         {routes.navbar.map((route, index) => (
           <Link to={route.path} className="relative group">
             {route.title}

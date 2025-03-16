@@ -6,7 +6,13 @@ import Textarea from "./Textarea";
 import Dropdown from "./Dropdown";
 import MultiSelectDropdown from "./MultiSelectDropdown";
 
-const DynamicForm = ({ options, submitText = "Submit", onSubmit, title }) => {
+const DynamicForm = ({
+  options,
+  submitText = "Submit",
+  onSubmit,
+  title,
+  className,
+}) => {
   const allFilled = options
     ?.filter((item) => item?.required)
     .every((item) => item?.value);
@@ -14,7 +20,9 @@ const DynamicForm = ({ options, submitText = "Submit", onSubmit, title }) => {
   return (
     <div className="w-full flex flex-col items-start justify-center">
       <h4 className="text-lg font-medium mt-2">{title}</h4>
-      <form className="w-full flex flex-col items-center justify-center gap-2 p-2 text-start">
+      <form
+        className={`w-full flex flex-col items-center justify-center gap-2 p-2 text-start ${className}`}
+      >
         {options?.map((item, index) => {
           switch (item.formType) {
             case "input":
@@ -81,7 +89,7 @@ const DynamicForm = ({ options, submitText = "Submit", onSubmit, title }) => {
           }
         })}
         {onSubmit && (
-          <Button onClick={onSubmit} disabled={!allFilled}>
+          <Button onClick={onSubmit} disabled={!allFilled} >
             {submitText}
           </Button>
         )}

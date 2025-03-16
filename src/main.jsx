@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App.jsx";
 import { GlobalProvider } from "./contexts/GlobalContext.jsx";
 import { DataProvider } from "./contexts/DataContext.jsx";
+import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <GlobalProvider>
-    <DataProvider>
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </DataProvider>
+    <AuthContextProvider>
+      <DataProvider>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </DataProvider>
+    </AuthContextProvider>
   </GlobalProvider>
 );

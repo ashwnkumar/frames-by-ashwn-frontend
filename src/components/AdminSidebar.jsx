@@ -12,6 +12,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Button from "./form/Button";
 import toast from "react-hot-toast";
 import envConfig from "../utils/envConfig";
+import { useAuth } from "../contexts/AuthContext";
 
 const links = [
   {
@@ -34,10 +35,11 @@ const links = [
 const AdminSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logoutAdmin, adminDetails } = useAuth();
 
   const handleLogout = () => {
     toast.success("Logout successful.");
-    localStorage.removeItem("adminToken");
+    logoutAdmin();
     navigate("/admin/login");
   };
 
@@ -48,7 +50,7 @@ const AdminSidebar = () => {
           to="/admin"
           className="flex items-center justify-center gap-2 whitespace-nowrap text-xl font-semibold"
         >
-          Welcome, {envConfig.adminName}
+          Welcome, {adminDetails?.name || "Admin"}
         </Link>
 
         {links.map((link, index) => {

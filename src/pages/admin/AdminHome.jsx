@@ -1,14 +1,18 @@
 import React from "react";
-import Button from "../../components/form/Button";
-import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header";
 
 const AdminHome = () => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/admin/login");
-  };
-  return <div>AdminHome</div>;
+  const buttons = [
+    {
+      label: "Edit Details",
+      navTo: "/admin/edit",
+    },
+  ];
+  return (
+    <div className="w-full min-h-screen">
+      <Header title="Admin Home " buttonData={buttons} />
+    </div>
+  );
 };
 
 export default AdminHome;

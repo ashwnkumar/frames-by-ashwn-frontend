@@ -6,8 +6,8 @@ import AdminPhotos from "../pages/admin/photos/AdminPhotos";
 import AdminAlbums from "../pages/admin/albums/AdminAlbums";
 import AdminLayout from "../layouts/AdminLayout"; // Import AdminLayout
 import AddAlbums from "../pages/admin/albums/AddAlbums";
-
 import PhotosForm from "../pages/admin/photos/PhotosForm";
+import AdminForm from "../pages/admin/AdminForm";
 
 export const routes = {
   public: [
@@ -44,6 +44,10 @@ export const routes = {
         {
           path: "albums/add",
           component: AddAlbums,
+        },
+        {
+          path: "edit",
+          component: AdminForm,
         },
       ],
     },

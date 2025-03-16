@@ -12,9 +12,13 @@ const Footer = () => {
         >
           frames by ashwn
         </h2>
-        <button type="button" className="hover:bg-light/20 rounded-full p-2 flex items-center justify-center cursor-pointer">
+        <a
+          href="https://www.instagram.com/frames.by.ashwn/"
+          target="_blank"
+          className="hover:bg-light/20 rounded-full p-2.5 flex items-center justify-center cursor-pointer"
+        >
           <FontAwesomeIcon icon={faInstagram} className="text-4xl" />
-        </button>
+        </a>
       </div>
 
       {/* Divider */}
@@ -22,7 +26,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <p className="text-center text-gray-400 text-sm">
-        © 2025 Ashwin Kumar. All Rights Reserved.
+        © 2025 Designed and Developed by Ashwin Kumar. All Rights Reserved.
       </p>
     </footer>
   );
