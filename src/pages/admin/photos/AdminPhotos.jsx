@@ -43,7 +43,7 @@ const AdminPhotos = () => {
               <ImageComponent
                 images={photos.map((p) => p)} // Pass all images for navigation
                 imageId={index} // Image index in the array
-                openModal={openModal} // Function to open lightbox
+                // openModal={openModal} // Function to open lightbox
               />
             </div>
           ))

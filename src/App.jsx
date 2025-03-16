@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 
 import { routes } from "./routes/routes";
 import Loader from "./components/Loader";
+import PageNotFound from "./pages/PageNotFound";
 
 const App = () => {
   return (
@@ -39,6 +40,8 @@ const App = () => {
               />
             ))}
           </Route>
+
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
       <Loader />

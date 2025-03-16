@@ -6,8 +6,10 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="p-4 w-full flex flex-row items-center justify-around">
-      <Link to="/">Frames By Ashwn</Link>
+    <div className="p-4 w-full flex flex-row items-center justify-around fixed top-0 z-50  text-dark backdrop-blur-md">
+      <Link to="/" className="text-4xl font-medium" style={{ fontFamily:"Smooch" }}>
+        frames by ashwn
+      </Link>
       <div className="flex flex-row items-center justify-center gap-10">
         {routes.navbar.map((route, index) => (
           <Link to={route.path} className="relative group">
