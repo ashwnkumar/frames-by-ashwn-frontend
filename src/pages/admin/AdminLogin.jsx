@@ -6,7 +6,7 @@ import Button from "../../components/form/Button";
 import axiosInstance from "../../utils/axiosInstance";
 import toast from "react-hot-toast";
 import { useGlobalContext } from "../../contexts/GlobalContext";
-import { envConfig } from "../../utils/envConfig";
+import envConfig from "../../utils/envConfig";
 
 const AdminLogin = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -51,6 +51,10 @@ const AdminLogin = () => {
     }
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("adminToken")) navigate("/admin");
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-light px-4">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
@@ -94,6 +98,15 @@ const AdminLogin = () => {
             loading={loading}
           >
             Log In
+          </Button>
+          <Button
+            type="button"
+            onClick={() => navigate("/")}
+            className="w-full mt-2"
+            loading={loading}
+            variant="secondary"
+          >
+            Back to Home
           </Button>
         </form>
       </div>

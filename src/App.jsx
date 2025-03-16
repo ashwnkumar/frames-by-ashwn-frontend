@@ -4,24 +4,22 @@ import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
 
 import { Toaster } from "react-hot-toast";
-import AdminRoute from "./routes/AdminRoute";
+
 import { routes } from "./routes/routes";
-import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
+import Loader from "./components/Loader";
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          <Route>
-            {routes.public.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))}
-          </Route>
+          {routes.public.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={<route.component />}
+            />
+          ))}
           <Route element={<UserLayout />}>
             {routes.user.map((route, index) => (
               <Route
@@ -32,19 +30,18 @@ const App = () => {
             ))}
           </Route>
 
-          <Route element={<ProtectedAdminRoute />}>
-            <Route element={<AdminLayout />}>
-              {routes.admin.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={<route.component />}
-                />
-              ))}
-            </Route>
+          <Route path="/admin" element={<AdminLayout />}>
+            {routes.admin[0].children.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
           </Route>
         </Routes>
       </Router>
+      <Loader />
       <Toaster />
     </>
   );

@@ -2,7 +2,9 @@ import React from "react";
 import Input from "./Input"; // Your reusable Input component
 import Button from "./Button"; // Your reusable Button component
 import FileUpload from "./FileInput";
-
+import Textarea from "./Textarea";
+import Dropdown from "./Dropdown";
+import MultiSelectDropdown from "./MultiSelectDropdown";
 
 const DynamicForm = ({ options, submitText = "Submit", onSubmit, title }) => {
   const allFilled = options
@@ -35,6 +37,42 @@ const DynamicForm = ({ options, submitText = "Submit", onSubmit, title }) => {
                   label={item.label}
                   name={item.name}
                   id={item.id}
+                  required={item.required}
+                  onFileSelect={item.onChange}
+                  existingImage={item.existingImage}
+                />
+              );
+            case "textarea":
+              return (
+                <Textarea
+                  key={index}
+                  label={item.label}
+                  name={item.name}
+                  required={item.required}
+                  placeholder={item.label}
+                  value={item.value}
+                  onChange={item.onChange}
+                />
+              );
+            case "dropdown":
+              return (
+                <Dropdown
+                  key={index}
+                  label={item.label}
+                  name={item.name}
+                  options={item.options}
+                  value={item.value}
+                  onChange={item.onChange}
+                />
+              );
+            case "multiselect":
+              return (
+                <MultiSelectDropdown
+                  key={index}
+                  label={item.label}
+                  name={item.name}
+                  options={item.options}
+                  value={item.value}
                   onChange={item.onChange}
                 />
               );

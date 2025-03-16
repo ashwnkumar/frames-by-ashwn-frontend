@@ -8,12 +8,7 @@ const AdminHome = () => {
     localStorage.removeItem("adminToken");
     navigate("/admin/login");
   };
-  return (
-    <div>
-      AdminHome
-      <Button onClick={handleLogout}>Log Out</Button>
-    </div>
-  );
+  return <div>AdminHome</div>;
 };
 
 export default AdminHome;

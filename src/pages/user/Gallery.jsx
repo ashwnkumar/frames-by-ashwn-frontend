@@ -1,55 +1,38 @@
-import React, { useState } from "react";
-
-import Lightbox from "../../components/Lightbox";
+import React from "react";
+import { useDataContext } from "../../contexts/DataContext";
 import ImageComponent from "../../components/ImageComponent";
 
-const images = [];
+const GalleryPage = () => {
+  const { fetchedPhotos, loading, error } = useDataContext();
 
-// CURRENT IMAGES FORMAT IS AN ARRAY OF STRINGS
-// REFACTOR TO ACCEPT AN ARRAY OF OBJECTS
-// MAKE CHANGES ACCORDINGLY TO IMAGECOMPONENT.JSX AND LIGHTBOX.JSX
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading photos...</p>;
+  }
 
-const Gallery = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const openModal = (index) => {
-    setCurrentIndex(index);
-    setIsOpen(true);
-  };
-
-  const nextImage = () => {
-    if (currentIndex < images.length - 1) setCurrentIndex(currentIndex + 1);
-  };
-
-  const prevImage = () => {
-    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
-  };
+  if (error) {
+    return <p className="text-center text-red-500">Failed to load photos.</p>;
+  }
 
   return (
-    <>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {images.map((src, index) => (
-          <ImageComponent
-            key={index}
-            src={src}
-            index={index}
-            openModal={openModal}
-          />
-        ))}
-      </div>
+    <div className="w-full min-h-screen flex flex-col items-center">
+      <h1 className="text-3xl font-bold mt-6 mb-4">Gallery</h1>
 
-      {isOpen && (
-        <Lightbox
-          images={images}
-          currentIndex={currentIndex}
-          onClose={() => setIsOpen(false)}
-          onPrev={prevImage}
-          onNext={nextImage}
-        />
+      {fetchedPhotos.length === 0 ? (
+        <p className="text-gray-500">No photos available.</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4 w-full max-w-7xl">
+          {fetchedPhotos.map((photo) => (
+            <div key={photo.id} className="relative overflow-hidden rounded-lg">
+              <ImageComponent
+                src={photo.imageUrl}
+                alt={photo.title || "Photo"}
+              />
+            </div>
+          ))}
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default Gallery;
+export default GalleryPage;

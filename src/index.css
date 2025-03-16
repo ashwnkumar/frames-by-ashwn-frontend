@@ -2,7 +2,12 @@
 
 @theme {
   --color-dark: #14171e;
+  --color-dark-faded: #14171e70;
   --color-light: #eff0f9;
   --color-danger: #ff4d4f;
   --color-placeholder: #4a5565;
+  --color-gray: #d0d5dd;
+  --color-hover: #e4e6eb;
+  --color-danger: #cc262c;
+  --color-danger-hover: #a61f24;
 }

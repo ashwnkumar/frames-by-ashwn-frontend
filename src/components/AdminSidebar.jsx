@@ -1,18 +1,33 @@
-import { Disc3, LayoutDashboard, LogOut, ShoppingBasket } from "lucide-react";
+import {
+  Disc3,
+  Home,
+  Image,
+  LayoutDashboard,
+  LogOut,
+  ShoppingBasket,
+  SquareLibrary,
+} from "lucide-react";
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Button from "../../components/form/Button";
+import Button from "./form/Button";
+import toast from "react-hot-toast";
+import envConfig from "../utils/envConfig";
 
 const links = [
   {
-    title: "Dashboard",
-    icon: LayoutDashboard,
+    title: "Home",
+    icon: Home,
     path: "/admin",
   },
   {
-    title: "Manage Records",
-    icon: Disc3,
-    path: "/admin/vinyls",
+    title: "Manage Photos",
+    icon: Image,
+    path: "/admin/photos",
+  },
+  {
+    title: "Manage Albums",
+    icon: SquareLibrary,
+    path: "/admin/albums",
   },
 ];
 
@@ -21,19 +36,19 @@ const AdminSidebar = () => {
   const location = useLocation();
 
   const handleLogout = () => {
+    toast.success("Logout successful.");
     localStorage.removeItem("adminToken");
     navigate("/admin/login");
   };
 
   return (
     <div className="h-screen w-64 flex flex-col justify-between p-5 border-r border-gray ">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col items-start justify-center gap-2">
         <Link
           to="/admin"
           className="flex items-center justify-center gap-2 whitespace-nowrap text-xl font-semibold"
         >
-          <Disc3 />
-          SpinCity Admin
+          Welcome, {envConfig.adminName}
         </Link>
 
         {links.map((link, index) => {
@@ -44,7 +59,7 @@ const AdminSidebar = () => {
               key={index}
               to={link.path}
               className={`p-2 rounded-lg w-full flex flex-row items-center justify-start gap-2 transition-all duration-300 ${
-                isActive ? "bg-primary-faded text-primary " : "hover:bg-hover "
+                isActive ? "bg-dark text-light " : "hover:bg-hover "
               }`}
             >
               <link.icon />
@@ -55,8 +70,8 @@ const AdminSidebar = () => {
       </div>
 
       <Button
-    
         onClick={handleLogout}
+        variant="danger"
         className="w-full flex items-center justify-start gap-2"
       >
         <LogOut />

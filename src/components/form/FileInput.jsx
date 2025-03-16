@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Upload, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -8,8 +8,10 @@ const FileUpload = ({
   id,
   name,
   required,
+  existingImage, // <-- Added prop for existing image preview
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(existingImage || null); // Initialize with existing image
   const [isDragging, setIsDragging] = useState(false);
 
   // Memoized valid formats
@@ -18,14 +20,23 @@ const FileUpload = ({
     []
   );
 
+  // Update preview if an existing image is provided (useful when editing)
+  useEffect(() => {
+    if (existingImage) {
+      setPreview(existingImage);
+    }
+  }, [existingImage]);
+
   const handleFile = useCallback(
     (file) => {
       if (!file) return;
 
       if (validFormats.includes(file.type)) {
-        setSelectedFile(URL.createObjectURL(file));
+        setPreview(URL.createObjectURL(file)); // Show preview of new upload
+        setSelectedFile(file);
         onFileSelect?.(file);
       } else {
+        setPreview(existingImage || null); // Reset to existing image if invalid file
         setSelectedFile(null);
         onFileSelect?.(null);
         toast.error(
@@ -33,7 +44,7 @@ const FileUpload = ({
         );
       }
     },
-    [onFileSelect, validFormats]
+    [onFileSelect, validFormats, existingImage]
   );
 
   const handleFileChange = useCallback(
@@ -53,6 +64,12 @@ const FileUpload = ({
     [handleFile]
   );
 
+  const handleRemoveImage = () => {
+    setPreview(null);
+    setSelectedFile(null);
+    onFileSelect?.(null);
+  };
+
   return (
     <div className="flex flex-col items-start w-full text-dark">
       {/* Label */}
@@ -66,20 +83,17 @@ const FileUpload = ({
       )}
 
       {/* Image Preview */}
-      {selectedFile ? (
+      {preview ? (
         <div className="relative w-full h-64 border-2 border-gray-300 border-dashed rounded-lg flex items-center justify-center cursor-pointer">
           <img
-            src={selectedFile}
+            src={preview}
             alt="Preview"
             className="w-full h-full object-cover rounded-lg"
           />
           <button
             type="button"
             className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md hover:bg-hover transition"
-            onClick={() => {
-              setSelectedFile(null);
-              onFileSelect?.(null);
-            }}
+            onClick={handleRemoveImage}
             aria-label="Remove uploaded image"
           >
             <XCircle className="text-red-500" />
@@ -105,7 +119,6 @@ const FileUpload = ({
               <span className="font-semibold">Click to upload</span> or drag and
               drop
             </p>
-            <p className="text-xs">SVG, PNG, JPG, or GIF (MAX. 800x400px)</p>
           </div>
           <input
             id={id}

@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <div className="p-4 w-full flex flex-row items-center justify-around">
-      <Link to="/">Logo</Link>
+      <Link to="/">Frames By Ashwn</Link>
       <div className="flex flex-row items-center justify-center gap-10">
         {routes.navbar.map((route, index) => (
           <Link to={route.path} className="relative group">
