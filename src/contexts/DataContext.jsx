@@ -3,8 +3,8 @@ import {
   useContext,
   useEffect,
   useState,
-  useMemo,
   useRef,
+  useCallback,
 } from "react";
 import axiosInstance from "../utils/axiosInstance";
 
@@ -15,51 +15,46 @@ export const DataProvider = ({ children }) => {
   const [fetchedAlbums, setFetchedAlbums] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const isFetched = useRef(false); // Prevent re-fetching
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const isFetched = useRef(false);
 
-  const getPhotoById = async (id) => {
+  // 🔹 Fix: Memoize fetchPhotos with useCallback
+  const fetchPhotos = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
     try {
-      const response = await axiosInstance.get(`/photos/${id}`);
-      return response.data.photo;
-    } catch (error) {
-      console.error("Error Fetching Photo", error);
-      setError(error);
+      const response = await axiosInstance.get(`/photos?page=${page}`);
+      const newPhotos = response.data.photos;
+      setFetchedPhotos((prev) => [...prev, ...newPhotos]);
+
+      // 🔹 Update pagination state correctly
+      setHasMore(newPhotos.length > 0);
+      setPage((prev) => prev + 1);
+    } catch (err) {
+      console.error("Error Fetching Photos", err);
+      setError(err);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [loading, hasMore, page]); // Dependencies must be stable
 
   useEffect(() => {
-    if (isFetched.current) return; // Prevent duplicate fetching
-
-    const fetchPhotos = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosInstance.get("/photos");
-        setFetchedPhotos(response.data.photos);
-        isFetched.current = true; // Mark as fetched
-      } catch (error) {
-        console.error("Error Fetching Photos", error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    if (isFetched.current) return;
     fetchPhotos();
-  }, [getPhotoById]);
+    isFetched.current = true;
+  }, [fetchPhotos]);
 
-  // Memoize context value to prevent unnecessary re-renders
-  const contextValue = useMemo(
-    () => ({
-      fetchedPhotos,
-      setFetchedPhotos,
-      fetchedAlbums,
-      setFetchedAlbums,
-      loading,
-      error,
-      getPhotoById,
-    }),
-    [fetchedPhotos, fetchedAlbums, loading, error]
-  );
+  const contextValue = {
+    fetchedPhotos,
+    setFetchedPhotos,
+    fetchedAlbums,
+    setFetchedAlbums,
+    loading,
+    error,
+    fetchPhotos,
+    hasMore,
+  };
 
   return (
     <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>

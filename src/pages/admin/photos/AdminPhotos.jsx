@@ -1,24 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Plus } from "lucide-react";
 import Header from "../../../components/Header";
 import { useDataContext } from "../../../contexts/DataContext";
 import ImageComponent from "../../../components/ImageComponent";
 
 const AdminPhotos = () => {
+  const { fetchedPhotos, fetchPhotos, loading, hasMore } = useDataContext();
   const [photos, setPhotos] = useState([]);
-  const [lightboxIndex, setLightboxIndex] = useState(null);
-  const [viewingLightbox, setViewingLightbox] = useState(false);
-
-  const { fetchedPhotos } = useDataContext();
+  const observerRef = useRef(null);
 
   useEffect(() => {
-    setPhotos(fetchedPhotos); // Always update photos when fetchedPhotos changes
+    setPhotos(fetchedPhotos);
   }, [fetchedPhotos]);
 
-  const openModal = (index) => {
-    setLightboxIndex(index);
-    setViewingLightbox(true);
-  };
+  useEffect(() => {
+    if (loading || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchPhotos(); // Fetch next batch
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (observerRef.current) observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [loading, hasMore, fetchPhotos]);
 
   const buttons = [
     {
@@ -32,19 +42,12 @@ const AdminPhotos = () => {
     <div className="w-full min-h-screen flex flex-col items-center">
       <Header title="Manage Photos" buttonData={buttons} />
 
-      {/* Simple Grid Layout */}
-      <div className="grid gap-4 p-4 w-full max-w-7xl grid-cols-4">
+      {/* Masonry Layout */}
+      <div className="columns-2 md:columns-3 gap-4 p-4 w-full max-w-7xl">
         {photos.length > 0 ? (
           photos.map((photo, index) => (
-            <div
-              key={photo._id}
-              className="relative overflow-hidden rounded-xl"
-            >
-              <ImageComponent
-                images={photos.map((p) => p)} // Pass all images for navigation
-                imageId={index} // Image index in the array
-                // openModal={openModal} // Function to open lightbox
-              />
+            <div key={photo._id} className="mb-4 break-inside-avoid">
+              <ImageComponent images={photos} imageId={index} />
             </div>
           ))
         ) : (
@@ -53,6 +56,13 @@ const AdminPhotos = () => {
           </p>
         )}
       </div>
+
+      {/* Infinite Scroll Trigger */}
+      {hasMore && (
+        <div ref={observerRef} className="w-full h-10 flex justify-center mt-4">
+          <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 };

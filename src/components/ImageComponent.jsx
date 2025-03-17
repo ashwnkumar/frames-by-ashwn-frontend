@@ -4,7 +4,6 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { useNavigate } from "react-router-dom";
 
 const ImageComponent = ({ images, imageId }) => {
-  console.log("images from imagecomponent", images);
   const mongoId = images[imageId]?._id;
   const { isAdmin } = useGlobalContext();
   const navigate = useNavigate();
@@ -34,8 +33,9 @@ const ImageComponent = ({ images, imageId }) => {
 
   // Handle keyboard navigation
   useEffect(() => {
+    if (!lightboxOpen) return;
+
     const handleKeyDown = (e) => {
-      if (!lightboxOpen) return;
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowLeft") prevImage();
       if (e.key === "ArrowRight") nextImage();
@@ -43,7 +43,7 @@ const ImageComponent = ({ images, imageId }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxOpen]);
+  }, [lightboxOpen, prevImage, nextImage, closeLightbox]);
 
   return (
     <>
@@ -82,10 +82,7 @@ const ImageComponent = ({ images, imageId }) => {
 
       {/* Lightbox */}
       {lightboxOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-          onClick={closeLightbox}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             {/* Close Button */}
             <button
@@ -96,21 +93,27 @@ const ImageComponent = ({ images, imageId }) => {
               <X size={30} />
             </button>
 
-            {/* Image */}
-            <img
-              src={images[currentIndex]?.imageUrl}
-              alt={images[currentIndex]?.title || "Image"}
-              className="w-auto max-h-[80vh] object-contain mx-auto"
-            />
+            {/* Image Wrapper (Prevents accidental lightbox closing) */}
+            <div
+              className="flex flex-col items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Image */}
+              <img
+                src={images[currentIndex]?.imageUrl}
+                alt={images[currentIndex]?.title || "Image"}
+                className="w-auto max-h-[80vh] object-contain mx-auto"
+              />
 
-            {/* Title & Description */}
-            <div className="text-center mt-4 px-6 text-white">
-              <h2 className="text-lg font-semibold">
-                {images[currentIndex]?.title}
-              </h2>
-              <p className="text-sm opacity-80">
-                {images[currentIndex]?.description}
-              </p>
+              {/* Title & Description */}
+              <div className="text-center mt-4 px-6 text-white">
+                <h2 className="text-lg font-semibold">
+                  {images[currentIndex]?.title}
+                </h2>
+                <p className="text-sm opacity-80">
+                  {images[currentIndex]?.description}
+                </p>
+              </div>
             </div>
 
             {/* Navigation Buttons */}
