@@ -126,8 +126,8 @@ const Home = () => {
             : "url(/landing.jpg)",
         }}
       >
-        <div className="flex flex-col items-center justify-end min-h-screen w-full p-5 md:p-10 text-center">
-          <h3 className="text-xl md:text-4xl font-light text-light">
+        <div className="flex flex-col items-center justify-center md:justify-end min-h-screen w-full p-5 md:p-10 text-center">
+          <h3 className="text-xl md:text-4xl font-normal md:font-light text-light">
             Capturing Moments, One{" "}
             <span
               style={{ fontFamily: "Smooch" }}
