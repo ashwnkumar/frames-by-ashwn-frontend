@@ -119,14 +119,14 @@ const Home = () => {
     <div className="flex flex-col items-center justify-center ">
       {/* Hero Section */}
       <div
-        className="min-h-screen w-full bg-cover bg-center flex items-center justify-center font-bold"
+        className="min-h-screen w-full bg-cover bg-center flex items-center justify-center font-bold "
         style={{
           backgroundImage: adminLanding
             ? `url(${adminLanding})`
             : "url(/landing.jpg)",
         }}
       >
-        <div className="flex flex-col items-center justify-center md:justify-end min-h-screen w-full p-5 md:p-10 text-center">
+        <div className="flex flex-col items-center justify-center  min-h-screen w-full p-5 md:p-10 text-center sticky top-0">
           <h3 className="text-xl md:text-4xl font-normal md:font-light text-light">
             Capturing Moments, One{" "}
             <span
@@ -137,10 +137,7 @@ const Home = () => {
             </span>{" "}
             at a Time
           </h3>
-          <ChevronsDown
-            className="text-light mt-4 w-10 h-10 md:w-16 md:h-16"
-            strokeWidth={1.5}
-          />
+          <ChevronsDown className="mt-4 text-light" strokeWidth={1.5} size={55} />
         </div>
       </div>
 
