@@ -1,8 +1,9 @@
 import axios from "axios";
+import { envConfig } from "./envConfig";
 
 // Base instance
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: `${envConfig.apiUrl}/api`,
   headers: { "Content-Type": "multipart/form-data" },
 });
 

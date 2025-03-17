@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import DynamicForm from "../../components/form/DynamicForm";
 import toast from "react-hot-toast";
 import { useGlobalContext } from "../../contexts/GlobalContext";
-import envConfig from "../../utils/envConfig";
 import { useAuth } from "../../contexts/AuthContext";
 import Button from "../../components/form/Button";
 
@@ -23,12 +22,11 @@ const AdminLogin = () => {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
     const newErrors = {};
     if (!form.email) newErrors.email = "Email is required.";
-    if (form.email !== envConfig.adminEmail) newErrors.email = "Invalid email.";
+
     if (!emailPattern.test(form.email))
       newErrors.email = "Invalid email format.";
     if (!form.password) newErrors.password = "Password is required.";
-    if (form.password !== envConfig.adminPassword)
-      newErrors.password = "Invalid password.";
+
     setError(newErrors);
     return Object.keys(newErrors).length === 0;
   };
