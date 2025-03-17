@@ -65,7 +65,7 @@ const Home = () => {
         toast.error("Unable To Send Email. Try again later.");
       }
     } catch (error) {
-      toast.error("Something Went Wrong. Try again later.");
+      toast.error(error.response?.data?.message || "Something went wrong");
       console.log("Error sending email", error);
     } finally {
       setLoading(false);
@@ -116,7 +116,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center -mt-12">
+    <div className="flex flex-col items-center justify-center ">
       {/* Hero Section */}
       <div
         className="min-h-screen w-full bg-cover bg-center flex items-center justify-center font-bold"

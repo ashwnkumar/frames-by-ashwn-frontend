@@ -11,7 +11,7 @@ const AdminPhotos = () => {
 
   useEffect(() => {
     setPhotos(fetchedPhotos);
-  }, [fetchedPhotos]);
+  }, [fetchedPhotos, setPhotos]);
 
   useEffect(() => {
     if (loading || !hasMore) return;

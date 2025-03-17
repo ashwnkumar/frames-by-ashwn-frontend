@@ -47,6 +47,7 @@ const AdminLogin = () => {
         toast.success("Logged In Successfully.");
       }
     } catch (err) {
+      toast.error(error.response?.data?.message || "Something went wrong");
       setError(err.response?.data?.message || "Login failed. Try again.");
     } finally {
       setLoading(false);

@@ -17,9 +17,9 @@ export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [totalPhotos, setTotalPhotos] = useState(0);
   const isFetched = useRef(false);
 
-  // 🔹 Fix: Memoize fetchPhotos with useCallback
   const fetchPhotos = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
@@ -27,8 +27,7 @@ export const DataProvider = ({ children }) => {
       const response = await axiosInstance.get(`/photos?page=${page}`);
       const newPhotos = response.data.photos;
       setFetchedPhotos((prev) => [...prev, ...newPhotos]);
-
-      // 🔹 Update pagination state correctly
+      setTotalPhotos(response.data.totalPhotos);
       setHasMore(newPhotos.length > 0);
       setPage((prev) => prev + 1);
     } catch (err) {
@@ -37,11 +36,22 @@ export const DataProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [loading, hasMore, page]); // Dependencies must be stable
+  }, [loading, hasMore, page]);
+
+  const getPhotoById = useCallback(async (id) => {
+    try {
+      const response = await axiosInstance.get(`/photos/${id}`);
+      return response.data.photo;
+    } catch (err) {
+      console.error("Error Fetching Photo", err);
+      setError(err);
+    }
+  }, []);
 
   useEffect(() => {
     if (isFetched.current) return;
     fetchPhotos();
+
     isFetched.current = true;
   }, [fetchPhotos]);
 
@@ -53,7 +63,9 @@ export const DataProvider = ({ children }) => {
     loading,
     error,
     fetchPhotos,
+    getPhotoById,
     hasMore,
+    totalPhotos,
   };
 
   return (

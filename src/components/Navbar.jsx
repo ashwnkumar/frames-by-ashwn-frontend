@@ -1,14 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "../routes/routes";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "auto";
+  }, [open]);
 
   return (
-    <div className="p-4 w-full flex flex-row items-center justify-around fixed top-0 z-50  text-dark backdrop-blur-sm">
+    <div
+      className={`transition-all duration-200 p-4 w-full flex flex-row items-center justify-start md:justify-around gap-4 fixed top-0 z-40 text-dark ${
+        scrolled ? "bg-light" : "bg-transparent"
+      }`}
+    >
+      <button
+        type="button"
+        onClick={toggleSidebar}
+        className="bg-dark text-light rounded-full p-1.5 block md:hidden "
+      >
+        <Menu />
+      </button>
       <Link
         to="/"
         className="text-4xl font-medium"
@@ -16,16 +45,11 @@ const Navbar = () => {
       >
         frames by ashwn
       </Link>
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className="bg-dark text-light rounded-full p-1.5 block md:hidden absolute left-10   "
-      >
-        {open ? <X /> : <Menu />}
-      </button>
-      <div className=" flex-row items-center justify-center gap-10 hidden md:flex">
+
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex flex-row items-center justify-center gap-10">
         {routes.navbar.map((route, index) => (
-          <Link to={route.path} className="relative group">
+          <Link key={index} to={route.path} className="relative group text-lg">
             {route.title}
             <span
               className={`absolute left-0 -bottom-0.5 h-[2px] w-full bg-dark transform transition-all duration-300 scale-x-0 group-hover:scale-x-100 ${

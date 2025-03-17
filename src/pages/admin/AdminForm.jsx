@@ -45,7 +45,7 @@ const AdminForm = () => {
       navigate("/admin");
     } catch (error) {
       console.log("Error updating admin details", error);
-      toast.error("Error updating admin details");
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

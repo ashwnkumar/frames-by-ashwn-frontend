@@ -29,7 +29,7 @@ const GalleryPage = () => {
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center">
+    <div className="w-full min-h-screen flex flex-col items-center mt-12">
       <h1 className="text-3xl font-bold mt-6 mb-4">Gallery</h1>
 
       {fetchedPhotos.length === 0 && !loading ? (

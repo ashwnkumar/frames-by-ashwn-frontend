@@ -12,7 +12,6 @@ import { useDataContext } from "../../../contexts/DataContext";
 const PhotosForm = () => {
   const params = useParams();
   const isEditing = !!params.id;
-
   const { getPhotoById } = useDataContext();
   const { setLoading } = useGlobalContext();
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ const PhotosForm = () => {
     photo: null,
   });
 
-  console.log("photoData is", photoData);
+  console.log('isEditing', isEditing)
 
   useEffect(() => {
     if (isEditing) {
@@ -79,8 +78,8 @@ const PhotosForm = () => {
       }
       navigate("/admin/photos");
     } catch (error) {
-      toast.error(error.message || "Something went wrong");
-      console.log("Error Adding Photo", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
+      console.error("Error Adding Photo", error);
     } finally {
       setLoading(false);
     }

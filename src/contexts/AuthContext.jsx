@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import axiosInstance from "../utils/axiosInstance";
 
 import { createContext, useContext, useEffect, useState } from "react";
@@ -31,6 +32,7 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("adminToken", response.data.token);
       return response.data;
     } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
       console.log("Error logging in admin", error);
     }
   };
@@ -47,6 +49,7 @@ export const AuthContextProvider = ({ children }) => {
       console.log("response from update admin call", response);
       return response.data;
     } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
       console.error("Error updating admin details", error);
     }
   };
