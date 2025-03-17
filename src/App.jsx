@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { routes } from "./routes/routes";
 import Loader from "./components/Loader";
 import PageNotFound from "./pages/PageNotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+        <ScrollToTop />
       </Router>
       <Loader />
       <Toaster />

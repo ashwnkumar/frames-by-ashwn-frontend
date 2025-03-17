@@ -22,6 +22,10 @@ const DynamicForm = ({
       <h4 className="text-lg font-medium mt-2">{title}</h4>
       <form
         className={`w-full flex flex-col items-center justify-center gap-2 p-2 text-start ${className}`}
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevents the form from submitting via URL
+          // if (onSubmit) onSubmit(); // Calls the provided submit function
+        }}
       >
         {options?.map((item, index) => {
           switch (item.formType) {
@@ -33,7 +37,7 @@ const DynamicForm = ({
                   name={item.name}
                   required={item.required}
                   type={item.type}
-                  placeholder={item.label}
+                  placeholder={item.placeholder || item.label}
                   value={item.value}
                   onChange={item.onChange}
                 />
@@ -57,7 +61,7 @@ const DynamicForm = ({
                   label={item.label}
                   name={item.name}
                   required={item.required}
-                  placeholder={item.label}
+                  placeholder={item.placeholder || item.label}
                   value={item.value}
                   onChange={item.onChange}
                 />
@@ -89,7 +93,12 @@ const DynamicForm = ({
           }
         })}
         {onSubmit && (
-          <Button onClick={onSubmit} disabled={!allFilled} >
+          <Button
+            onClick={onSubmit}
+            disabled={!allFilled}
+            type="button"
+            className="w-full"
+          >
             {submitText}
           </Button>
         )}

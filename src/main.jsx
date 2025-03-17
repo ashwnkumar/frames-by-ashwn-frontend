@@ -10,9 +10,9 @@ createRoot(document.getElementById("root")).render(
   <GlobalProvider>
     <AuthContextProvider>
       <DataProvider>
-        <StrictMode>
+        {/* <StrictMode> */}
           <App />
-        </StrictMode>
+        {/* </StrictMode> */}
       </DataProvider>
     </AuthContextProvider>
   </GlobalProvider>

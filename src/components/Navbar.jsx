@@ -8,7 +8,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="p-4 w-full flex flex-row items-center justify-around fixed top-0 z-50  text-dark backdrop-blur-md">
+    <div className="p-4 w-full flex flex-row items-center justify-around fixed top-0 z-50  text-dark backdrop-blur-sm">
       <Link
         to="/"
         className="text-4xl font-medium"

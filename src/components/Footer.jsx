@@ -1,5 +1,24 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import {
+  faArtstation,
+  faInstagram,
+  faPinterest,
+} from "@fortawesome/free-brands-svg-icons";
+import SocialIcon from "./SocialIcon";
+
+const socialLinks = [
+  {
+    href: "https://www.instagram.com/frames.by.ashwn/",
+    icon: faInstagram,
+  },
+  {
+    href: "https://in.pinterest.com/ashwnkumar07/",
+    icon: faPinterest,
+  },
+  {
+    href: "https://www.artstation.com/ashwnkumar",
+    icon: faArtstation,
+  },
+];
 
 const Footer = () => {
   return (
@@ -12,13 +31,16 @@ const Footer = () => {
         >
           frames by ashwn
         </h2>
-        <a
-          href="https://www.instagram.com/frames.by.ashwn/"
-          target="_blank"
-          className="hover:bg-light/20 rounded-full p-2.5 flex items-center justify-center cursor-pointer"
-        >
-          <FontAwesomeIcon icon={faInstagram} className="text-4xl" />
-        </a>
+        <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
+          {socialLinks.map(({ href, icon }) => (
+            <SocialIcon
+              key={href}
+              href={href}
+              icon={icon}
+              className="text-3xl"
+            />
+          ))}
+        </div>
       </div>
 
       {/* Divider */}

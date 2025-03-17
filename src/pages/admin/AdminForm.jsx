@@ -41,6 +41,7 @@ const AdminForm = () => {
       newFormData.append("landingPageUrl", formData.landingPageUrl);
 
       await updateAdminDetails(newFormData);
+      toast.success("Admin details updated successfully");
       navigate("/admin");
     } catch (error) {
       console.log("Error updating admin details", error);
