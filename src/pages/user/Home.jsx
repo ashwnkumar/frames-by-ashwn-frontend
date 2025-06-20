@@ -46,7 +46,7 @@ const Home = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      console.log("formData before call", formData);
+     
       const response = await axiosInstance.post("/send-email", formData, {
         headers: {
           "Content-Type": "application/json",

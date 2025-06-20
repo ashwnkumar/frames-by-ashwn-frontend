@@ -2,19 +2,24 @@ import toast from "react-hot-toast";
 import axiosInstance from "../utils/axiosInstance";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useGlobalContext } from "./GlobalContext";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+  const { setLoading } = useGlobalContext();
   const [adminDetails, setAdminDetails] = useState({});
   const [token, setToken] = useState(localStorage.getItem("adminToken") || "");
 
   const fetchAdminDetails = async () => {
     try {
+      setLoading(true);
       const response = await axiosInstance.get("/admin");
       setAdminDetails(response?.data?.admin);
     } catch (error) {
       console.log("Error fetching admin details", error);
+    } finally {
+      setLoading(false);
     }
   };
 

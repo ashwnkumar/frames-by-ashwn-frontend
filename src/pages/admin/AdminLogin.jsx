@@ -7,7 +7,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import Button from "../../components/form/Button";
 
 const AdminLogin = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "frames.by.ashwn@gmail.com",
+    password: "",
+  });
   const { loading, setLoading } = useGlobalContext();
   const { loginAdmin } = useAuth();
   const [error, setError] = useState({});
@@ -59,14 +62,6 @@ const AdminLogin = () => {
   const formOptions = [
     {
       formType: "input",
-      type: "email",
-      label: "Email",
-      name: "email",
-      value: form.email,
-      onChange: (e) => setForm((prev) => ({ ...prev, email: e.target.value })),
-    },
-    {
-      formType: "input",
       type: "password",
       label: "Password",
       name: "password",
@@ -79,10 +74,11 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-light px-4">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center">Welcome Back</h2>
+        <h2 className="text-2xl font-semibold text-center">
+          Password Required
+        </h2>
         <p className="text-sm text-placeholder text-center ">
-          Manage your portfolio with ease. Log in to upload and organize your
-          photos.
+          This page is password protected.
         </p>
 
         <DynamicForm options={formOptions} />
